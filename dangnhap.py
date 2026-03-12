@@ -66,7 +66,7 @@ class Ui_DangNhap(object):
         self.logo.setScaledContents(True)
         self.logo.setObjectName("logo")
         self.mostaff = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.mostaff.setGeometry(QtCore.QRect(560, 340, 61, 21))
+        self.mostaff.setGeometry(QtCore.QRect(460, 340, 61, 21))
         self.mostaff.setObjectName("mostaff")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
