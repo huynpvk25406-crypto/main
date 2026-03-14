@@ -1,3 +1,4 @@
+
 # Form implementation generated from reading ui file 'hiensanphamchitiet.ui'
 #
 # Created by: PyQt6 UI code generator 6.9.1
@@ -7,7 +8,6 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
 
 class Ui_HienSanPhamChiTiet(object):
     def setupUi(self, MainWindow):
