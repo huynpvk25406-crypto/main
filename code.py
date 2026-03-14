@@ -194,16 +194,6 @@ class GioHang(MoGiaoDien,Ui_GioHang):
 
         self.tongtien.setText(str(tong))
 
-    def capnhat_tongtien(self):
-        tong = 0
-
-        for item in cart:
-            price = int(item["price"])
-            qty = item["qty"]
-            tong += price * qty
-
-        self.tongtien.setText(str(tong))
-
     def xoa_sanpham(self):
         row = self.thongtingiohang.currentRow()
 
