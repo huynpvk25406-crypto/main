@@ -316,7 +316,7 @@
       <x>480</x>
       <y>210</y>
       <width>301</width>
-      <height>71</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -329,6 +329,95 @@
     </property>
     <property name="wordWrap">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>270</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Số Lượng :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>270</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>310</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>M</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>L</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XL</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>XXL</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>310</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Size :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>350</y>
+      <width>281</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thêm Vào Giỏ Hàng</string>
     </property>
    </widget>
    <zorder>textEdit</zorder>
@@ -352,6 +441,11 @@
    <zorder>tenspchitiet</zorder>
    <zorder>giaspchitiet</zorder>
    <zorder>motaspchitiet</zorder>
+   <zorder>label_11</zorder>
+   <zorder>spinBox</zorder>
+   <zorder>comboBox</zorder>
+   <zorder>label_12</zorder>
+   <zorder>pushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
