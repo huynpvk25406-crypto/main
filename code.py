@@ -175,6 +175,7 @@ class GioHang(MoGiaoDien,Ui_GioHang):
         self.thanhtoan.clicked.connect(lambda:self.mogiaodien(ThanhToan))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.load_cart()
+        self.xoa.clicked.connect(self.xoa_sanpham)
     def load_cart(self):
         self.thongtingiohang.setRowCount(len(cart))
 
@@ -192,6 +193,32 @@ class GioHang(MoGiaoDien,Ui_GioHang):
             self.thongtingiohang.setItem(row,3,QTableWidgetItem(str(thanhtien)))
 
         self.tongtien.setText(str(tong))
+
+    def capnhat_tongtien(self):
+        tong = 0
+
+        for item in cart:
+            price = int(item["price"])
+            qty = item["qty"]
+            tong += price * qty
+
+        self.tongtien.setText(str(tong))
+
+    def xoa_sanpham(self):
+        row = self.thongtingiohang.currentRow()
+
+        # kiểm tra có chọn dòng chưa
+        if row == -1:
+            QMessageBox.warning(self, "Thông báo", "Hãy chọn sản phẩm cần xóa")
+            return
+
+        # kiểm tra index có hợp lệ không
+        if row >= len(cart):
+            return
+
+        cart.pop(row)
+
+        self.load_cart()
 
 class ThanhToan(MoGiaoDien,Ui_ThanhToan):
     def __init__(self):
