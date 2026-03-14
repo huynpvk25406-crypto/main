@@ -14,7 +14,8 @@ from quanlythunhap import Ui_QuanLyThuNhap
 from hiensanphamchitiet import Ui_HienSanPhamChiTiet
 from account_manager import AccountManager
 import json
-
+from PyQt6.QtWidgets import QTableWidgetItem
+cart=[]
 class MoGiaoDien(QMainWindow):
     def mogiaodien(self,window_class):
         self.window=window_class()
@@ -76,14 +77,6 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
             json.dump(users, f)
         QMessageBox.information(self, "OK", "Đăng ký thành công")
 
-
-
-
-
-
-
-
-
 class TrangChu(MoGiaoDien,Ui_TrangChu):
     def __init__(self):
         super().__init__()
@@ -141,6 +134,9 @@ class HienSanPhamChiTiet(MoGiaoDien, Ui_HienSanPhamChiTiet):
     def __init__(self, sp):
         super().__init__()
         self.setupUi(self)
+
+        self.sp = sp
+
         self.logo.setPixmap(QPixmap("image/logo.jpg"))
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
@@ -152,6 +148,22 @@ class HienSanPhamChiTiet(MoGiaoDien, Ui_HienSanPhamChiTiet):
         self.motaspchitiet.setText(sp["desc"])
         self.anhspchitiet.setPixmap(QPixmap(sp["img"]))
 
+        # nút thêm giỏ
+        self.xacnhanthem.clicked.connect(self.them_vao_gio)
+
+    def them_vao_gio(self):
+        soluong = self.soluong.value()
+
+        item = {
+            "name": self.sp["name"],
+            "price": self.sp["price"],
+            "qty": soluong
+        }
+
+        cart.append(item)
+
+        QMessageBox.information(self, "Thông báo", "Đã thêm vào giỏ hàng")
+
 class GioHang(MoGiaoDien,Ui_GioHang):
     def __init__(self):
         super().__init__()
@@ -162,6 +174,24 @@ class GioHang(MoGiaoDien,Ui_GioHang):
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.thanhtoan.clicked.connect(lambda:self.mogiaodien(ThanhToan))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+        self.load_cart()
+    def load_cart(self):
+        self.thongtingiohang.setRowCount(len(cart))
+
+        tong = 0
+
+        for row, item in enumerate(cart):
+            name = item["name"]
+            price = int(item["price"].replace(".","").replace(" VND",""))
+            qty = item["qty"]
+            thanhtien = price * qty
+            tong += thanhtien
+            self.thongtingiohang.setItem(row,0,QTableWidgetItem(name))
+            self.thongtingiohang.setItem(row,1,QTableWidgetItem(str(price)))
+            self.thongtingiohang.setItem(row,2,QTableWidgetItem(str(qty)))
+            self.thongtingiohang.setItem(row,3,QTableWidgetItem(str(thanhtien)))
+
+        self.tongtien.setText(str(tong))
 
 class ThanhToan(MoGiaoDien,Ui_ThanhToan):
     def __init__(self):
