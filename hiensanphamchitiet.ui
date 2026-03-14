@@ -344,7 +344,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Số Lượng :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QSpinBox" name="soluong">
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -354,7 +354,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="size">
     <property name="geometry">
      <rect>
       <x>480</x>
@@ -402,7 +402,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Size :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="xacnhanthem">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -442,10 +442,10 @@
    <zorder>giaspchitiet</zorder>
    <zorder>motaspchitiet</zorder>
    <zorder>label_11</zorder>
-   <zorder>spinBox</zorder>
-   <zorder>comboBox</zorder>
+   <zorder>soluong</zorder>
+   <zorder>size</zorder>
    <zorder>label_12</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>xacnhanthem</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
