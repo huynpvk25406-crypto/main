@@ -1,6 +1,6 @@
-from PyQt6.QtCore import Qt,QTimer
-from PyQt6.QtWidgets import QMainWindow,QMessageBox
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt, QTimer, QSize
+from PyQt6.QtWidgets import QMainWindow, QMessageBox, QListWidgetItem
+from PyQt6.QtGui import QPixmap, QIcon
 from dangnhap import Ui_DangNhap
 from quanly import Ui_QuanLy
 from sanpham import Ui_SanPham
@@ -11,6 +11,7 @@ from quanlysanpham import Ui_QuanLySanPham
 from quanlyhangtonkho import Ui_QuanLyHangTonKho
 from quanlynhanvien import Ui_QuanLyNhanVien
 from quanlythunhap import Ui_QuanLyThuNhap
+from hiensanphamchitiet import Ui_HienSanPhamChiTiet
 from account_manager import AccountManager
 import json
 
@@ -75,6 +76,14 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
             json.dump(users, f)
         QMessageBox.information(self, "OK", "Đăng ký thành công")
 
+
+
+
+
+
+
+
+
 class TrangChu(MoGiaoDien,Ui_TrangChu):
     def __init__(self):
         super().__init__()
@@ -104,6 +113,45 @@ class SanPham(MoGiaoDien,Ui_SanPham):
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
 
+        self.hiensanpham()
+        self.bangsanpham.itemClicked.connect(self.xem_chitiet)
+        self.bangsanpham.setIconSize(QSize(120, 120))
+        self.bangsanpham.setGridSize(QSize(170, 260))
+
+    def hiensanpham(self):
+        try:
+            with open("products.json", "r") as f:
+                products = json.load(f)
+        except:
+            products = []
+        for p in products:
+            item = QListWidgetItem()
+            item.setText(p["name"])
+            item.setIcon(QIcon(p["img"]))
+            item.setData(Qt.ItemDataRole.UserRole, p)
+            self.bangsanpham.addItem(item)
+
+    def xem_chitiet(self, item):
+        sp = item.data(Qt.ItemDataRole.UserRole)
+        self.window = HienSanPhamChiTiet(sp)
+        self.window.show()
+        self.close()
+
+class HienSanPhamChiTiet(MoGiaoDien, Ui_HienSanPhamChiTiet):
+    def __init__(self, sp):
+        super().__init__()
+        self.setupUi(self)
+        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
+        self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
+        self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
+        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+
+        self.tenspchitiet.setText(sp["name"])
+        self.giaspchitiet.setText(sp["price"])
+        self.motaspchitiet.setText(sp["desc"])
+        self.anhspchitiet.setPixmap(QPixmap(sp["img"]))
+
 class GioHang(MoGiaoDien,Ui_GioHang):
     def __init__(self):
         super().__init__()
@@ -124,6 +172,11 @@ class ThanhToan(MoGiaoDien,Ui_ThanhToan):
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+
+
+
+
+
 
 
 
@@ -161,6 +214,38 @@ class QuanLySanPham(MoGiaoDien,Ui_QuanLySanPham):
         self.quanlynhanvien.clicked.connect(lambda:self.mogiaodien(QuanLyNhanVien))
         self.quanlythunhap.clicked.connect(lambda:self.mogiaodien(QuanLyThuNhap))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+
+        self.xacnhanthem.clicked.connect(self.them_sp)
+
+    def them_sp(self):
+        idsp = self.themidsp.text()
+        name = self.themtensp.text()
+        price = self.themgiasp.text()
+        img = self.themlinkanhsp.text()
+        desc = self.themmotasp.text()
+        if name == "" or price == "" or img == "":
+            QMessageBox.warning(self, "Lỗi", "Nhập đầy đủ thông tin")
+            return
+        try:
+            with open("products.json", "r") as f:
+                products = json.load(f)
+        except:
+            products = []
+        products.append({
+            "id": idsp,
+            "name": name,
+            "price": price,
+            "img": img,
+            "desc": desc
+        })
+        with open("products.json", "w") as f:
+            json.dump(products, f)
+        QMessageBox.information(self,"OK","Thêm sản phẩm thành công")
+        self.themidsp.clear()
+        self.themtensp.clear()
+        self.themgiasp.clear()
+        self.themlinkanhsp.clear()
+        self.themmotasp.clear()
 
 class QuanLyHangTonKho(MoGiaoDien,Ui_QuanLyHangTonKho):
     def __init__(self):
