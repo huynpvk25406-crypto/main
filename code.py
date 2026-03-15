@@ -16,6 +16,10 @@ from account_manager import AccountManager
 import json
 from PyQt6.QtWidgets import QTableWidgetItem
 cart=[]
+import random
+from datetime import datetime
+from pathlib import Path
+from PyQt6.QtWidgets import QFileDialog
 class MoGiaoDien(QMainWindow):
     def mogiaodien(self,window_class):
         self.window=window_class()
@@ -210,24 +214,103 @@ class GioHang(MoGiaoDien,Ui_GioHang):
 
         self.load_cart()
 
-class ThanhToan(MoGiaoDien,Ui_ThanhToan):
+class ThanhToan(MoGiaoDien, Ui_ThanhToan):
+    QR = {"ZaloPay": "zalopay_qr.png", "MoMo": "momo_qr.png", "VNPay": "vnpay_qr.png"}
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
-        self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
-        self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
-        self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+        self.tong = 0
+        self.pttt = 0
+        self.lichsu = []
+        self._setup()
+        self._load()
 
+    def _setup(self):
+        for n, w in [("logo.jpg", self.logo), ("cuoi.png", self.cuoi)]:
+            if (p := Path("image") / n).exists():
+                w.setPixmap(QPixmap(str(p)))
+                w.setScaledContents(True)
+        self.textEdit.hide()
+        self.btnTimeline.hide()
+        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setHorizontalHeaderLabels(["Mã", "TG", "PTTT", "Tổng", "TT"])
+        self.trangchu.clicked.connect(lambda: self.mogiaodien(TrangChu))
+        self.sanpham.clicked.connect(lambda: self.mogiaodien(SanPham))
+        self.giohang.clicked.connect(lambda: self.mogiaodien(GioHang))
 
+        for btn, m in [(self.radioButton, "COD"),
+                       (self.radioButton_2, "ZaloPay"),
+                       (self.radioButton_3, "MoMo"),
+                       (self.radioButton_4, "VNPay")]:
+            btn.clicked.connect(lambda _, m=m: self.chon_pt(m))
 
+        self.pushButton.clicked.connect(self.dat_hang)
+        self.downloadButton.clicked.connect(self.xuat_hd)
 
+    def _load(self):
+        global cart
+        self.tong = 0
+        if not cart:
+            self.itemsText.setText("GIỎ HÀNG TRỐNG")
+            self.hientien.setText("0 VNĐ")
+            return
 
+        lines = []
+        for i in cart:
+            tt = int(i.get("price", "0").replace(".", "").replace(" VND", "0")) * i.get("qty", 0)
+            self.tong += tt
+            lines.append(f"• {i.get('name', '?')} x{i.get('qty', 0)}: {tt:,}đ")
 
+        self.itemsText.setText("SẢN PHẨM:\n" + "\n".join(lines))
+        self.hientien.setText(f"{self.tong:,} VNĐ")
 
+    def chon_pt(self, m):
+        self.pttt = m
+        self.hienphuongthuc.setText(m)
+        if m in self.QR and (p := Path("image") / self.QR[m]).exists():
+            self.qrLabel.setPixmap(QPixmap(str(p)))
+            self.qrLabel.setScaledContents(True)
+        else:
+            self.qrLabel.setText("Thanh toán khi nhận hàng")
+            self.qrLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+    def dat_hang(self):
+        global cart
+        if not cart or not self.pttt:
+            QMessageBox.warning(self, "Lỗi", "Giỏ trống hoặc chưa chọn PTTT!")
+            return
 
+        now = datetime.now()
+        o = {
+            "id": f"ORD{random.randint(100000, 999999)}",
+            "time": now.strftime("%Y-%m-%d %H:%M"),
+            "pt": self.pttt,
+            "tong": self.tong,
+            "tt": "Đang xử lý"
+        }
+
+        self.lichsu.insert(0, o)
+        cart.clear()
+        self.tableWidget.insertRow(0)
+
+        for c, v in enumerate([o["id"], o["time"], o["pt"], f"{o['tong']:,}đ", o["tt"]]):
+            self.tableWidget.setItem(0, c, QTableWidgetItem(v))
+
+        QMessageBox.information(self, "OK", f"Đặt hàng thành công!\nMã: {o['id']}\nTổng: {self.tong:,}đ")
+        self._load()
+
+    def xuat_hd(self):
+        if (r := self.tableWidget.currentRow()) < 0:
+            QMessageBox.warning(self, "Lỗi", "Chọn đơn hàng cần xuất!")
+            return
+
+        d = self.lichsu[r]
+        f, _ = QFileDialog.getSaveFileName(self, "Lưu hóa đơn", f"hoadon_{d['id']}.txt", "Text Files (*.txt)")
+
+        if f:
+            with open(f, 'w', encoding='utf-8') as file:
+                file.write(f"HÓA ĐƠN\nMã: {d['id']}\nTG: {d['time']}\nPTTT: {d['pt']}\nTổng: {d['tong']:,}đ")
+            QMessageBox.information(self, "OK", "Đã lưu hóa đơn!")
 
 class QuanLy(MoGiaoDien,Ui_QuanLy):
     def __init__(self):
