@@ -14,27 +14,11 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="logo">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>71</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>110</y>
+      <x>290</x>
+      <y>60</y>
       <width>241</width>
       <height>51</height>
      </rect>
@@ -47,7 +31,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>220</y>
+      <y>200</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -57,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>140</y>
+      <y>120</y>
       <width>241</width>
       <height>51</height>
      </rect>
@@ -70,7 +54,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>210</y>
+      <y>190</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -83,7 +67,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>240</y>
+      <y>220</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -96,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
+      <y>280</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -109,7 +93,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>270</y>
+      <y>250</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -122,7 +106,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>250</y>
+      <y>230</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -132,7 +116,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>280</y>
+      <y>260</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -142,7 +126,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>310</y>
+      <y>290</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -152,7 +136,7 @@
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>140</y>
+      <y>120</y>
       <width>241</width>
       <height>51</height>
      </rect>
@@ -165,7 +149,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>240</y>
+      <y>220</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -178,7 +162,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>300</y>
+      <y>280</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -191,7 +175,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>270</y>
+      <y>250</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -204,7 +188,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>250</y>
+      <y>230</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -214,7 +198,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>310</y>
+      <y>290</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -224,7 +208,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>220</y>
+      <y>200</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -234,7 +218,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>280</y>
+      <y>260</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -244,7 +228,7 @@
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>140</y>
+      <y>120</y>
       <width>241</width>
       <height>51</height>
      </rect>
@@ -257,244 +241,19 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>190</y>
+      <y>170</y>
       <width>113</width>
       <height>20</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>-10</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;ADMIN Quản Lý&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="hangtonkho">
-    <property name="geometry">
-     <rect>
-      <x>500</x>
-      <y>30</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Hàng Tồn Kho</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="trangchu2">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>30</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Trang Chủ</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="quanlythunhap">
-    <property name="geometry">
-     <rect>
-      <x>500</x>
-      <y>80</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Quản Lý Thu Nhập</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="quanlysanpham">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>30</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Quản Lý Sản Phẩm</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="quanlynhanvien">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>80</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Quản Lý Nhân Viên</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>-10</y>
-      <width>341</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;Shop Thời Trang NewGen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="sanpham">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>80</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Sản Phẩm</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>30</y>
-      <width>531</width>
-      <height>81</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_16">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>550</y>
-      <width>371</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Điện Thoại : 0379759517&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_17">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>510</y>
-      <width>401</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Địa Chỉ : 669 Đỗ Mười, Khu phố 13, Thủ Đức, Hồ Chí Minh&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_18">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>510</y>
-      <width>281</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Nhà Phân phối chính hãng các thương hiệu &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;thời trang quốc tế hàng đầu Việt Nam&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="cuoi">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>400</y>
-      <width>791</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_19">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>480</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;NewGen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_20">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>530</y>
-      <width>371</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Email : Nhom15K25406@st.uel.edu.vn&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="xacnhanthem">
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>350</y>
-      <width>71</width>
-      <height>21</height>
+      <y>330</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -510,9 +269,9 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>350</y>
-      <width>71</width>
-      <height>21</height>
+      <y>330</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -528,9 +287,9 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>350</y>
-      <width>71</width>
-      <height>21</height>
+      <y>330</y>
+      <width>81</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -546,7 +305,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>160</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -559,7 +318,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>190</y>
+      <y>170</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -569,7 +328,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>180</y>
+      <y>160</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -582,7 +341,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>190</y>
+      <y>170</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -592,7 +351,7 @@
     <property name="geometry">
      <rect>
       <x>570</x>
-      <y>180</y>
+      <y>160</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -605,7 +364,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>210</y>
+      <y>190</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -614,8 +373,301 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Tên Sản Phẩm&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="dangxuat">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>0</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Đăng xuất</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="trangchu2">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>30</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Trang Chủ</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quanlysanpham">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>30</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Sản Phẩm</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="hangtonkho">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>30</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hàng Tồn</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quanlynhanvien">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>30</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Nhân Viên</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quanlythunhap">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>30</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thu Nhập</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>151</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>30</y>
+      <width>521</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_17">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>550</y>
+      <width>231</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Điện Thoại : 0379759517&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_24">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>530</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;ZaloPay | Momo | VnPay | COD&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>490</y>
+      <width>791</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);</string>
+    </property>
+    <widget class="QLabel" name="label_27">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>281</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Giờ mở cửa : 8:30 - 22:00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_28">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>60</y>
+       <width>281</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Nhân viên tư vấn mỗi ngày&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>530</y>
+      <width>311</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Email : Nhom15K25406@st.uel.edu.vn&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cuoi">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>400</y>
+      <width>791</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_25">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>510</y>
+      <width>381</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Địa Chỉ : 669 Đỗ Mười, Khu phố 13, Thủ Đức, TP.HCM&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_26">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>510</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Phương thức thanh toán&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>480</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; color:#ffffff;&quot;&gt;Old SaiLor&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_29">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>480</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; color:#ffffff;&quot;&gt;Old SaiLor&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_18">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>510</y>
+      <width>281</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffffff;&quot;&gt;Nhà Phân phối chính hãng thời trang &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <zorder>widget</zorder>
    <zorder>textEdit</zorder>
-   <zorder>logo</zorder>
    <zorder>label_3</zorder>
    <zorder>themtensp</zorder>
    <zorder>label_4</zorder>
@@ -636,20 +688,6 @@
    <zorder>capnhatgiasp</zorder>
    <zorder>label_14</zorder>
    <zorder>xoasp</zorder>
-   <zorder>label_2</zorder>
-   <zorder>hangtonkho</zorder>
-   <zorder>trangchu2</zorder>
-   <zorder>quanlythunhap</zorder>
-   <zorder>quanlysanpham</zorder>
-   <zorder>quanlynhanvien</zorder>
-   <zorder>label</zorder>
-   <zorder>sanpham</zorder>
-   <zorder>label_16</zorder>
-   <zorder>label_17</zorder>
-   <zorder>label_18</zorder>
-   <zorder>cuoi</zorder>
-   <zorder>label_19</zorder>
-   <zorder>label_20</zorder>
    <zorder>xacnhanthem</zorder>
    <zorder>xacnhanxoa</zorder>
    <zorder>xacnhancapnhat</zorder>
@@ -659,6 +697,22 @@
    <zorder>capnhatidsp</zorder>
    <zorder>label_23</zorder>
    <zorder>label_15</zorder>
+   <zorder>dangxuat</zorder>
+   <zorder>trangchu2</zorder>
+   <zorder>quanlysanpham</zorder>
+   <zorder>hangtonkho</zorder>
+   <zorder>quanlynhanvien</zorder>
+   <zorder>quanlythunhap</zorder>
+   <zorder>logo</zorder>
+   <zorder>label_17</zorder>
+   <zorder>label_24</zorder>
+   <zorder>label_16</zorder>
+   <zorder>cuoi</zorder>
+   <zorder>label_25</zorder>
+   <zorder>label_26</zorder>
+   <zorder>label_13</zorder>
+   <zorder>label_29</zorder>
+   <zorder>label_18</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

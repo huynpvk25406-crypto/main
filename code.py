@@ -1,6 +1,7 @@
 from PyQt6.QtCore import Qt, QTimer, QSize
-from PyQt6.QtWidgets import QMainWindow, QMessageBox, QListWidgetItem
+from PyQt6.QtWidgets import QMainWindow, QMessageBox, QListWidgetItem, QTableWidgetItem, QFileDialog
 from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtWidgets import QDialog,QLabel,QVBoxLayout
 from dangnhap import Ui_DangNhap
 from quanly import Ui_QuanLy
 from sanpham import Ui_SanPham
@@ -11,15 +12,14 @@ from quanlysanpham import Ui_QuanLySanPham
 from quanlyhangtonkho import Ui_QuanLyHangTonKho
 from quanlynhanvien import Ui_QuanLyNhanVien
 from quanlythunhap import Ui_QuanLyThuNhap
+from tintuc import Ui_TinTuc
 from hiensanphamchitiet import Ui_HienSanPhamChiTiet
-from account_manager import AccountManager
 import json
-from PyQt6.QtWidgets import QTableWidgetItem
-cart=[]
 import random
 from datetime import datetime
 from pathlib import Path
-from PyQt6.QtWidgets import QFileDialog
+
+cart=[]
 class MoGiaoDien(QMainWindow):
     def mogiaodien(self,window_class):
         self.window=window_class()
@@ -30,7 +30,7 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
         self.mostaff.clicked.connect(lambda:self.mogiaodien(QuanLy))
         self.xacnhan2.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.staff_accounts = {
@@ -39,7 +39,6 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
         }
         self.xacnhan2.clicked.connect(self.login)
         self.xacnhan1.clicked.connect(self.register)
-
     def login(self):
         username = self.dnten.text()
         password = self.dnmk.text()
@@ -47,7 +46,7 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
             self.mogiaodien(QuanLy)
             return
         try:
-            with open("user.json", "r") as f:
+            with open("data/user.json", "r") as f:
                 users = json.load(f)
         except:
             users = []
@@ -56,7 +55,6 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
                 self.mogiaodien(TrangChu)
                 return
         QMessageBox.warning(self, "Lỗi", "Sai tài khoản hoặc mật khẩu")
-
     def register(self):
         username = self.dkten.text()
         password = self.dkmk.text()
@@ -65,7 +63,7 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
             QMessageBox.warning(self, "Lỗi", "Mật khẩu nhập lại không đúng")
             return
         try:
-            with open("user.json", "r") as f:
+            with open("data/user.json", "r") as f:
                 users = json.load(f)
         except:
             users = []
@@ -77,18 +75,32 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
             "username": username,
             "password": password
         })
-        with open("user.json", "w") as f:
+        with open("data/user.json", "w") as f:
             json.dump(users, f)
-        QMessageBox.information(self, "OK", "Đăng ký thành công")
+        QMessageBox.information(self, "Chúc mừng, ", "Bạn đã đăng ký thành công")
+
+
+
+
+
+
+
+
+
+
+
+
 
 class TrangChu(MoGiaoDien,Ui_TrangChu):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
+        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.images=["image/anh1.jpg","image/anh2.jpg","image/anh3.jpg","image/anh4.jpg"]
         self.index=0
@@ -104,20 +116,19 @@ class SanPham(MoGiaoDien,Ui_SanPham):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
-
         self.hiensanpham()
         self.bangsanpham.itemClicked.connect(self.xem_chitiet)
         self.bangsanpham.setIconSize(QSize(120, 120))
         self.bangsanpham.setGridSize(QSize(170, 260))
-
     def hiensanpham(self):
         try:
-            with open("products.json", "r") as f:
+            with open("data/products.json", "r") as f:
                 products = json.load(f)
         except:
             products = []
@@ -127,7 +138,6 @@ class SanPham(MoGiaoDien,Ui_SanPham):
             item.setIcon(QIcon(p["img"]))
             item.setData(Qt.ItemDataRole.UserRole, p)
             self.bangsanpham.addItem(item)
-
     def xem_chitiet(self, item):
         sp = item.data(Qt.ItemDataRole.UserRole)
         self.window = HienSanPhamChiTiet(sp)
@@ -138,208 +148,173 @@ class HienSanPhamChiTiet(MoGiaoDien, Ui_HienSanPhamChiTiet):
     def __init__(self, sp):
         super().__init__()
         self.setupUi(self)
-
-        self.sp = sp
-
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
+        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
-
         self.tenspchitiet.setText(sp["name"])
         self.giaspchitiet.setText(sp["price"])
         self.motaspchitiet.setText(sp["desc"])
         self.anhspchitiet.setPixmap(QPixmap(sp["img"]))
-
-        # nút thêm giỏ
+        self.sp = sp
         self.xacnhanthem.clicked.connect(self.them_vao_gio)
-
     def them_vao_gio(self):
         soluong = self.soluong.value()
-
         item = {
             "name": self.sp["name"],
             "price": self.sp["price"],
             "qty": soluong
         }
-
         cart.append(item)
-
         QMessageBox.information(self, "Thông báo", "Đã thêm vào giỏ hàng")
 
 class GioHang(MoGiaoDien,Ui_GioHang):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
-        self.ChoPhepThanhToan()
-        self.DieuKienThanhToan()
-        self.sanpham.clicked.connect(lambda: self.mogiaodien(SanPham))
-        self.trangchu.clicked.connect(lambda: self.mogiaodien(TrangChu))
-        self.giohang.clicked.connect(lambda: self.mogiaodien(GioHang))
-        self.thanhtoan.clicked.connect(self.KiemTraDinhDang)
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
+        self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
+        self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
+        self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
+        self.thanhtoan.clicked.connect(lambda:self.mogiaodien(ThanhToan))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.load_cart()
         self.xoa.clicked.connect(self.xoa_sanpham)
     def load_cart(self):
         self.thongtingiohang.setRowCount(len(cart))
-
         tong = 0
-
         for row, item in enumerate(cart):
             name = item["name"]
-            price = int(item["price"].replace(".","").replace(" VND",""))
+            price = int(item["price"].replace(".", "").replace(" VND", ""))
             qty = item["qty"]
             thanhtien = price * qty
             tong += thanhtien
-            self.thongtingiohang.setItem(row,0,QTableWidgetItem(name))
-            self.thongtingiohang.setItem(row,1,QTableWidgetItem(str(price)))
-            self.thongtingiohang.setItem(row,2,QTableWidgetItem(str(qty)))
-            self.thongtingiohang.setItem(row,3,QTableWidgetItem(str(thanhtien)))
-
+            self.thongtingiohang.setItem(row, 0, QTableWidgetItem(name))
+            self.thongtingiohang.setItem(row, 1, QTableWidgetItem(str(price)))
+            self.thongtingiohang.setItem(row, 2, QTableWidgetItem(str(qty)))
+            self.thongtingiohang.setItem(row, 3, QTableWidgetItem(str(thanhtien)))
         self.tongtien.setText(str(tong))
-
+        if len(cart) == 0:
+            self.thanhtoan.setEnabled(False)
+        else:
+            self.thanhtoan.setEnabled(True)
     def xoa_sanpham(self):
         row = self.thongtingiohang.currentRow()
-
-        # kiểm tra có chọn dòng chưa
         if row == -1:
             QMessageBox.warning(self, "Thông báo", "Hãy chọn sản phẩm cần xóa")
             return
-
-        # kiểm tra index có hợp lệ không
         if row >= len(cart):
             return
-
         cart.pop(row)
-
         self.load_cart()
 
-    def DieuKienThanhToan(self):
-        CacDieuKien = [self.hoten, self.sdt, self.email, self.diachi]
-        DuDieuKien = True
-        for i in CacDieuKien:
-            if i.text().strip() == "":
-                DuDieuKien = False
-                break
-        self.thanhtoan.setEnabled(DuDieuKien)
-    def ChoPhepThanhToan(self):
-        self.hoten.textChanged.connect(self.DieuKienThanhToan)
-        self.sdt.textChanged.connect(self.DieuKienThanhToan)
-        self.email.textChanged.connect(self.DieuKienThanhToan)
-        self.diachi.textChanged.connect(self.DieuKienThanhToan)
-    def KiemTraDinhDang(self):
-        if not self.sdt.text().isdigit():
-            QMessageBox.warning(self, "Cảnh báo", "Số điện thoại không phù hợp định dạng.")
-        elif "@" not in self.email.text():
-            QMessageBox.warning(self, "Cảnh báo", "Email không phù hợp định dạng.")
-        else:
-            self.mogiaodien(ThanhToan)
-
-class ThanhToan(MoGiaoDien, Ui_ThanhToan):
-    QR = {"ZaloPay": "zalopay_qr.png", "MoMo": "momo_qr.png", "VNPay": "vnpay_qr.png"}
+class TinTuc(MoGiaoDien, Ui_TinTuc):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.tong = 0
-        self.pttt = 0
-        self.lichsu = []
-        self._setup()
-        self._load()
-
-    def _setup(self):
-        for n, w in [("logo.jpg", self.logo), ("cuoi.png", self.cuoi)]:
-            if (p := Path("image") / n).exists():
-                w.setPixmap(QPixmap(str(p)))
-                w.setScaledContents(True)
-        self.textEdit.hide()
-        self.btnTimeline.hide()
-        self.tableWidget.setColumnCount(5)
-        self.tableWidget.setHorizontalHeaderLabels(["Mã", "TG", "PTTT", "Tổng", "TT"])
-        self.trangchu.clicked.connect(lambda: self.mogiaodien(TrangChu))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda: self.mogiaodien(DangNhap))
         self.sanpham.clicked.connect(lambda: self.mogiaodien(SanPham))
+        self.trangchu.clicked.connect(lambda: self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda: self.mogiaodien(GioHang))
+        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
 
-        for btn, m in [(self.radioButton, "COD"),
-                       (self.radioButton_2, "ZaloPay"),
-                       (self.radioButton_3, "MoMo"),
-                       (self.radioButton_4, "VNPay")]:
-            btn.clicked.connect(lambda _, m=m: self.chon_pt(m))
-
-        self.pushButton.clicked.connect(self.dat_hang)
-        self.downloadButton.clicked.connect(self.xuat_hd)
-
-    def _load(self):
-        global cart
-        self.tong = 0
-        if not cart:
-            self.itemsText.setText("GIỎ HÀNG TRỐNG")
-            self.hientien.setText("0 VNĐ")
-            return
-
-        lines = []
-        for i in cart:
-            tt = int(i.get("price", "0").replace(".", "").replace(" VND", "0")) * i.get("qty", 0)
-            self.tong += tt
-            lines.append(f"• {i.get('name', '?')} x{i.get('qty', 0)}: {tt:,}đ")
-
-        self.itemsText.setText("SẢN PHẨM:\n" + "\n".join(lines))
-        self.hientien.setText(f"{self.tong:,} VNĐ")
-
-    def chon_pt(self, m):
-        self.pttt = m
-        self.hienphuongthuc.setText(m)
-        if m in self.QR and (p := Path("image") / self.QR[m]).exists():
-            self.qrLabel.setPixmap(QPixmap(str(p)))
-            self.qrLabel.setScaledContents(True)
-        else:
-            self.qrLabel.setText("Thanh toán khi nhận hàng")
-            self.qrLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
+class QRWindow(QDialog):
+    def __init__(self,path):
+        super().__init__()
+        self.setWindowTitle("Quét QR để thanh toán")
+        self.setFixedSize(300,350)
+        layout=QVBoxLayout()
+        label=QLabel()
+        pix=QPixmap(path)
+        label.setPixmap(pix)
+        label.setScaledContents(True)
+        layout.addWidget(label)
+        self.setLayout(layout)
+class ThanhToan(MoGiaoDien,Ui_ThanhToan):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
+        self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
+        self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
+        self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
+        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
+        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+        self.thongtin={}
+        self.pttt=""
+        self.cod.toggled.connect(self.chon_thanhtoan)
+        self.zalopay.toggled.connect(self.chon_thanhtoan)
+        self.momo.toggled.connect(self.chon_thanhtoan)
+        self.vnpay.toggled.connect(self.chon_thanhtoan)
+        self.dathang.clicked.connect(self.dat_hang)
+    def lay_thong_tin(self):
+        self.thongtin={"ten":self.hoten.text(),"sdt":self.sdt.text(),"email":self.email.text(),"diachi":self.diachi.text(),"ghichu":self.ghichu.text()}
+    def chon_thanhtoan(self):
+        if self.cod.isChecked():
+            self.pttt="COD"
+            self.phuongthuc.setText("Thanh toán khi nhận hàng")
+        elif self.zalopay.isChecked():
+            self.pttt="ZaloPay"
+            self.phuongthuc.setText("Thanh toán ZaloPay")
+        elif self.momo.isChecked():
+            self.pttt="MoMo"
+            self.phuongthuc.setText("Thanh toán MoMo")
+        elif self.vnpay.isChecked():
+            self.pttt="VNPay"
+            self.phuongthuc.setText("Thanh toán VNPay")
+    def mo_qr(self,path):
+        self.qr_window=QRWindow(path)
+        self.qr_window.exec()
     def dat_hang(self):
-        global cart
-        if not cart or not self.pttt:
-            QMessageBox.warning(self, "Lỗi", "Giỏ trống hoặc chưa chọn PTTT!")
+        self.lay_thong_tin()
+        if self.thongtin["ten"]=="" or self.thongtin["sdt"]=="":
+            QMessageBox.warning(self,"Lỗi","Vui lòng nhập thông tin")
             return
-
-        now = datetime.now()
-        o = {
-            "id": f"ORD{random.randint(100000, 999999)}",
-            "time": now.strftime("%Y-%m-%d %H:%M"),
-            "pt": self.pttt,
-            "tong": self.tong,
-            "tt": "Đang xử lý"
-        }
-
-        self.lichsu.insert(0, o)
-        cart.clear()
-        self.tableWidget.insertRow(0)
-
-        for c, v in enumerate([o["id"], o["time"], o["pt"], f"{o['tong']:,}đ", o["tt"]]):
-            self.tableWidget.setItem(0, c, QTableWidgetItem(v))
-
-        QMessageBox.information(self, "OK", f"Đặt hàng thành công!\nMã: {o['id']}\nTổng: {self.tong:,}đ")
-        self._load()
-
-    def xuat_hd(self):
-        if (r := self.tableWidget.currentRow()) < 0:
-            QMessageBox.warning(self, "Lỗi", "Chọn đơn hàng cần xuất!")
+        if self.pttt=="":
+            QMessageBox.warning(self,"Lỗi","Hãy chọn phương thức thanh toán")
             return
+        if self.pttt=="COD":
+            if self.hoadon.isChecked():
+                text=f"Tên: {self.thongtin['ten']}\nSĐT: {self.thongtin['sdt']}\nEmail: {self.thongtin['email']}\nĐịa chỉ: {self.thongtin['diachi']}\nPhương thức: COD"
+                QMessageBox.information(self,"Hóa đơn",text)
+            else:
+                QMessageBox.information(self,"Thông báo","Đặt hàng thành công")
+        else:
+            if self.pttt=="MoMo":
+                path="image/momo.jpg"
+            elif self.pttt=="ZaloPay":
+                path="image/zalopay.jpg"
+            elif self.pttt=="VNPay":
+                path="image/vnpay.jpg"
+            if self.hoadon.isChecked():
+                text=f"Tên: {self.thongtin['ten']}\nSĐT: {self.thongtin['sdt']}\nEmail: {self.thongtin['email']}\nĐịa chỉ: {self.thongtin['diachi']}\nPhương thức: {self.pttt}\nQuét QR để thanh toán"
+                QMessageBox.information(self,"Hóa đơn",text)
+            self.mo_qr(path)
 
-        d = self.lichsu[r]
-        f, _ = QFileDialog.getSaveFileName(self, "Lưu hóa đơn", f"hoadon_{d['id']}.txt", "Text Files (*.txt)")
 
-        if f:
-            with open(f, 'w', encoding='utf-8') as file:
-                file.write(f"HÓA ĐƠN\nMã: {d['id']}\nTG: {d['time']}\nPTTT: {d['pt']}\nTổng: {d['tong']:,}đ")
-            QMessageBox.information(self, "OK", "Đã lưu hóa đơn!")
+
+
+
+
+
+
+
+
+
+
 
 class QuanLy(MoGiaoDien,Ui_QuanLy):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.trangchu2.clicked.connect(lambda:self.mogiaodien(QuanLy))
         self.quanlysanpham.clicked.connect(lambda:self.mogiaodien(QuanLySanPham))
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
@@ -360,16 +335,15 @@ class QuanLySanPham(MoGiaoDien,Ui_QuanLySanPham):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.trangchu2.clicked.connect(lambda:self.mogiaodien(QuanLy))
         self.quanlysanpham.clicked.connect(lambda:self.mogiaodien(QuanLySanPham))
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
         self.quanlynhanvien.clicked.connect(lambda:self.mogiaodien(QuanLyNhanVien))
         self.quanlythunhap.clicked.connect(lambda:self.mogiaodien(QuanLyThuNhap))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
-
         self.xacnhanthem.clicked.connect(self.them_sp)
-
     def them_sp(self):
         idsp = self.themidsp.text()
         name = self.themtensp.text()
@@ -377,10 +351,10 @@ class QuanLySanPham(MoGiaoDien,Ui_QuanLySanPham):
         img = self.themlinkanhsp.text()
         desc = self.themmotasp.text()
         if name == "" or price == "" or img == "":
-            QMessageBox.warning(self, "Lỗi", "Nhập đầy đủ thông tin")
+            QMessageBox.warning(self, "Lỗi", "Vui lòng nhập đầy đủ thông tin")
             return
         try:
-            with open("products.json", "r") as f:
+            with open("data/products.json", "r") as f:
                 products = json.load(f)
         except:
             products = []
@@ -391,9 +365,9 @@ class QuanLySanPham(MoGiaoDien,Ui_QuanLySanPham):
             "img": img,
             "desc": desc
         })
-        with open("products.json", "w") as f:
+        with open("data/products.json", "w") as f:
             json.dump(products, f)
-        QMessageBox.information(self,"OK","Thêm sản phẩm thành công")
+        QMessageBox.information(self,"Chúc mừng, ","Ban đã thêm sản phẩm thành công")
         self.themidsp.clear()
         self.themtensp.clear()
         self.themgiasp.clear()
@@ -404,7 +378,8 @@ class QuanLyHangTonKho(MoGiaoDien,Ui_QuanLyHangTonKho):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.trangchu2.clicked.connect(lambda:self.mogiaodien(QuanLy))
         self.quanlysanpham.clicked.connect(lambda:self.mogiaodien(QuanLySanPham))
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
@@ -416,19 +391,83 @@ class QuanLyNhanVien(MoGiaoDien, Ui_QuanLyNhanVien):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.trangchu2.clicked.connect(lambda:self.mogiaodien(QuanLy))
         self.quanlysanpham.clicked.connect(lambda:self.mogiaodien(QuanLySanPham))
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
         self.quanlynhanvien.clicked.connect(lambda:self.mogiaodien(QuanLyNhanVien))
         self.quanlythunhap.clicked.connect(lambda:self.mogiaodien(QuanLyThuNhap))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+        self.pushButtonSave.clicked.connect(self.luu_nhanvien)
+        self.pushButtonDel.clicked.connect(self.xoa_nhanvien)
+        self.lineEditSearch.textChanged.connect(self.timkiem)
+        self.pushButtonSave.setText("💾 Lưu")
+        self.pushButtonDel.setText("🗑 Xóa")
+        self.load_nhanvien()
+    def load_nhanvien(self):
+        try:
+            with open("data/nhanvien.json","r",encoding="utf-8") as f:
+                self.ds_nhanvien = json.load(f)
+        except:
+            self.ds_nhanvien = []
+        self.capnhat_danhsach()
+    def save_json(self):
+        with open("data/nhanvien.json","w",encoding="utf-8") as f:
+            json.dump(self.ds_nhanvien,f,ensure_ascii=False,indent=4)
+    def luu_nhanvien(self):
+        ma = self.lineEditMaNV.text()
+        ten = self.lineEditName.text()
+        luong = self.lineEditLuong.text()
+        dt = self.lineEditDT.text()
+        email = self.lineEditEmail.text()
+        chucvu = self.ComboChucVu.currentText()
+        if self.radMan.isChecked():
+            gioitinh = "Nam"
+        else:
+            gioitinh = "Nữ"
+        nv = {
+            "ma": ma,
+            "ten": ten,
+            "gioitinh": gioitinh,
+            "chucvu": chucvu,
+            "luong": luong,
+            "dt": dt,
+            "email": email
+        }
+        self.ds_nhanvien.append(nv)
+        self.save_json()
+        self.capnhat_danhsach()
+        self.lineEditMaNV.clear()
+        self.lineEditName.clear()
+        self.lineEditLuong.clear()
+        self.lineEditDT.clear()
+        self.lineEditEmail.clear()
+    def capnhat_danhsach(self):
+        self.danhsachnv.clear()
+        for nv in self.ds_nhanvien:
+            text = f'{nv["ma"]} | {nv["ten"]} | {nv["gioitinh"]} | {nv["chucvu"]} | {nv["luong"]} | {nv["dt"]} | {nv["email"]}'
+            self.danhsachnv.addItem(text)
+    def xoa_nhanvien(self):
+        row = self.danhsachnv.currentRow()
+        if row >= 0:
+            self.ds_nhanvien.pop(row)
+            self.save_json()
+            self.capnhat_danhsach()
+    def timkiem(self):
+        tukhoa = self.lineEditSearch.text().lower()
+        self.danhsachnv.clear()
+        for nv in self.ds_nhanvien:
+            text = f'{nv["ma"]} | {nv["ten"]} | {nv["gioitinh"]} | {nv["chucvu"]} | {nv["luong"]} | {nv["dt"]} | {nv["email"]}'
+            if tukhoa in text.lower():
+                self.danhsachnv.addItem(text)
 
 class QuanLyThuNhap(MoGiaoDien, Ui_QuanLyThuNhap):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.jpg"))
+        self.logo.setPixmap(QPixmap("image/logo.png"))
+        self.dangxuat.clicked.connect(lambda:self.mogiaodien(DangNhap))
         self.trangchu2.clicked.connect(lambda:self.mogiaodien(QuanLy))
         self.quanlysanpham.clicked.connect(lambda:self.mogiaodien(QuanLySanPham))
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))

@@ -61,7 +61,7 @@ class Ui_DangNhap(object):
         self.label.setGeometry(QtCore.QRect(310, 0, 341, 51))
         self.label.setObjectName("label")
         self.logo = QtWidgets.QLabel(parent=self.centralwidget)
-        self.logo.setGeometry(QtCore.QRect(20, 10, 91, 81))
+        self.logo.setGeometry(QtCore.QRect(20, 10, 151, 71))
         self.logo.setText("")
         self.logo.setScaledContents(True)
         self.logo.setObjectName("logo")
