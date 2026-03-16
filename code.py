@@ -173,10 +173,12 @@ class GioHang(MoGiaoDien,Ui_GioHang):
         super().__init__()
         self.setupUi(self)
         self.logo.setPixmap(QPixmap("image/logo.jpg"))
-        self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
-        self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
-        self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.thanhtoan.clicked.connect(lambda:self.mogiaodien(ThanhToan))
+        self.ChoPhepThanhToan()
+        self.DieuKienThanhToan()
+        self.sanpham.clicked.connect(lambda: self.mogiaodien(SanPham))
+        self.trangchu.clicked.connect(lambda: self.mogiaodien(TrangChu))
+        self.giohang.clicked.connect(lambda: self.mogiaodien(GioHang))
+        self.thanhtoan.clicked.connect(self.KiemTraDinhDang)
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.load_cart()
         self.xoa.clicked.connect(self.xoa_sanpham)
@@ -213,6 +215,27 @@ class GioHang(MoGiaoDien,Ui_GioHang):
         cart.pop(row)
 
         self.load_cart()
+
+    def DieuKienThanhToan(self):
+        CacDieuKien = [self.hoten, self.sdt, self.email, self.diachi]
+        DuDieuKien = True
+        for i in CacDieuKien:
+            if i.text().strip() == "":
+                DuDieuKien = False
+                break
+        self.thanhtoan.setEnabled(DuDieuKien)
+    def ChoPhepThanhToan(self):
+        self.hoten.textChanged.connect(self.DieuKienThanhToan)
+        self.sdt.textChanged.connect(self.DieuKienThanhToan)
+        self.email.textChanged.connect(self.DieuKienThanhToan)
+        self.diachi.textChanged.connect(self.DieuKienThanhToan)
+    def KiemTraDinhDang(self):
+        if not self.sdt.text().isdigit():
+            QMessageBox.warning(self, "Cảnh báo", "Số điện thoại không phù hợp định dạng.")
+        elif "@" not in self.email.text():
+            QMessageBox.warning(self, "Cảnh báo", "Email không phù hợp định dạng.")
+        else:
+            self.mogiaodien(ThanhToan)
 
 class ThanhToan(MoGiaoDien, Ui_ThanhToan):
     QR = {"ZaloPay": "zalopay_qr.png", "MoMo": "momo_qr.png", "VNPay": "vnpay_qr.png"}
