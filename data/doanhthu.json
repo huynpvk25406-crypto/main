@@ -1,0 +1,56 @@
+[
+    {
+        "id": "20260321000448753101",
+        "loai": "Doanh thu",
+        "ngay": "10/05/2026",
+        "month": 5,
+        "year": 2026,
+        "so_tien": 10000000,
+        "noi_dung": "Bán áo"
+    },
+    {
+        "id": "20260321000507162522",
+        "loai": "Chi tieu",
+        "ngay": "08/05/2026",
+        "month": 5,
+        "year": 2026,
+        "so_tien": 7000000,
+        "noi_dung": "Nhập áo"
+    },
+    {
+        "id": "20260321000520210251",
+        "loai": "Chi tieu",
+        "ngay": "16/05/2026",
+        "month": 5,
+        "year": 2026,
+        "so_tien": 9000000,
+        "noi_dung": "Nhập quần"
+    },
+    {
+        "id": "20260321000540902969",
+        "loai": "Doanh thu",
+        "ngay": "21/05/2026",
+        "month": 5,
+        "year": 2026,
+        "so_tien": 13000000,
+        "noi_dung": "Bán quần"
+    },
+    {
+        "id": "20260321000603990986",
+        "loai": "Chi tieu",
+        "ngay": "21/09/2026",
+        "month": 9,
+        "year": 2026,
+        "so_tien": 5000000,
+        "noi_dung": "Nhập nón"
+    },
+    {
+        "id": "20260321000617447211",
+        "loai": "Doanh thu",
+        "ngay": "26/09/2026",
+        "month": 9,
+        "year": 2026,
+        "so_tien": 7000000,
+        "noi_dung": "bán nón"
+    }
+]

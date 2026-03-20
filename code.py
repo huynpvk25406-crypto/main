@@ -1,6 +1,6 @@
 from PyQt6.QtCore import Qt, QTimer, QSize
 from PyQt6.QtWidgets import QMainWindow, QMessageBox, QListWidgetItem, QTableWidgetItem, QFileDialog
-from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtGui import QPixmap, QIcon, QColor
 from PyQt6.QtWidgets import QDialog,QLabel,QVBoxLayout
 from dangnhap import Ui_DangNhap
 from quanly import Ui_QuanLy
@@ -121,7 +121,7 @@ class SanPham(MoGiaoDien,Ui_SanPham):
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.hiensanpham()
         self.bangsanpham.itemClicked.connect(self.xem_chitiet)
         self.bangsanpham.setIconSize(QSize(120, 120))
@@ -154,16 +154,38 @@ class HienSanPhamChiTiet(MoGiaoDien, Ui_HienSanPhamChiTiet):
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.tenspchitiet.setText(sp["name"])
         self.giaspchitiet.setText(sp["price"])
         self.motaspchitiet.setText(sp["desc"])
         self.anhspchitiet.setPixmap(QPixmap(sp["img"]))
         self.sp = sp
+        self.so_luong_ton = self.lay_so_luong()
+        if self.so_luong_ton > 0:
+            self.soluong.setMinimum(1)
+            self.soluong.setMaximum(self.so_luong_ton)
+            self.soluong.setValue(1)
+        else:
+            self.soluong.setMinimum(0)
+            self.soluong.setMaximum(0)
+            self.soluong.setValue(0)
+            self.xacnhanthem.setEnabled(False)
         self.xacnhanthem.clicked.connect(self.them_vao_gio)
+    def lay_so_luong(self):
+        try:
+            return int(self.sp.get("soluong", 0))
+        except:
+            text = str(self.sp.get("soluong", "")).strip()
+            so = "".join(char for char in text if char.isdigit())
+            if so == "":
+                return 0
+            return int(so)
     def them_vao_gio(self):
+        if self.so_luong_ton <= 0:
+            QMessageBox.warning(self, "Thông báo", "Sản phẩm hiện đang hết hàng")
+            return
         soluong = self.soluong.value()
         item = {
+            "id": self.sp.get("id", ""),
             "name": self.sp["name"],
             "price": self.sp["price"],
             "qty": soluong
@@ -181,7 +203,7 @@ class GioHang(MoGiaoDien,Ui_GioHang):
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.thanhtoan.clicked.connect(lambda:self.mogiaodien(ThanhToan))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.load_cart()
         self.xoa.clicked.connect(self.xoa_sanpham)
     def load_cart(self):
@@ -245,7 +267,6 @@ class ThanhToan(MoGiaoDien,Ui_ThanhToan):
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.thongtin={}
         self.pttt=""
         self.cod.toggled.connect(self.chon_thanhtoan)
@@ -255,6 +276,74 @@ class ThanhToan(MoGiaoDien,Ui_ThanhToan):
         self.dathang.clicked.connect(self.dat_hang)
     def lay_thong_tin(self):
         self.thongtin={"ten":self.hoten.text(),"sdt":self.sdt.text(),"email":self.email.text(),"diachi":self.diachi.text(),"ghichu":self.ghichu.text()}
+    def doc_products(self):
+        try:
+            with open("data/products.json", "r") as f:
+                return json.load(f)
+        except:
+            return []
+    def ghi_products(self, products):
+        with open("data/products.json", "w") as f:
+            json.dump(products, f)
+    def lay_so_luong(self, sanpham):
+        try:
+            return int(sanpham.get("soluong", 0))
+        except:
+            text = str(sanpham.get("soluong", "")).strip()
+            so = "".join(char for char in text if char.isdigit())
+            if so == "":
+                return 0
+            return int(so)
+    def tim_sp(self, products, item):
+        masp = str(item.get("id", "")).strip()
+        if masp != "":
+            for sp in products:
+                if str(sp.get("id", "")).strip() == masp:
+                    return sp
+        ten = str(item.get("name", "")).strip()
+        for sp in products:
+            if str(sp.get("name", "")).strip() == ten:
+                return sp
+        return None
+    def tong_mua(self):
+        ds = {}
+        for item in cart:
+            masp = str(item.get("id", "")).strip()
+            if masp == "":
+                masp = "TEN::" + str(item.get("name", "")).strip()
+            qty = int(item.get("qty", 0))
+            ds[masp] = ds.get(masp, 0) + qty
+        return ds
+    def cap_nhat_kho(self):
+        if len(cart) == 0:
+            QMessageBox.warning(self, "Thông báo", "Giỏ hàng hiện đang trống")
+            return False
+        products = self.doc_products()
+        tong = self.tong_mua()
+        for masp, qty in tong.items():
+            if str(masp).startswith("TEN::"):
+                item = {"name": str(masp)[5:], "qty": qty}
+            else:
+                item = {"id": masp, "qty": qty}
+            sp = self.tim_sp(products, item)
+            if sp is None:
+                QMessageBox.warning(self, "Thông báo", "Không tìm thấy sản phẩm để cập nhật tồn kho")
+                return False
+            ton = self.lay_so_luong(sp)
+            if qty > ton:
+                QMessageBox.warning(self, "Thông báo", f"Sản phẩm {sp.get('name', '')} không đủ số lượng trong kho")
+                return False
+        for masp, qty in tong.items():
+            if str(masp).startswith("TEN::"):
+                item = {"name": str(masp)[5:], "qty": qty}
+            else:
+                item = {"id": masp, "qty": qty}
+            sp = self.tim_sp(products, item)
+            if sp is not None:
+                sp["soluong"] = self.lay_so_luong(sp) - qty
+        self.ghi_products(products)
+        cart.clear()
+        return True
     def chon_thanhtoan(self):
         if self.cod.isChecked():
             self.pttt="COD"
@@ -278,6 +367,8 @@ class ThanhToan(MoGiaoDien,Ui_ThanhToan):
             return
         if self.pttt=="":
             QMessageBox.warning(self,"Lỗi","Hãy chọn phương thức thanh toán")
+            return
+        if self.cap_nhat_kho() == False:
             return
         if self.pttt=="COD":
             if self.hoadon.isChecked():
@@ -342,37 +433,114 @@ class QuanLySanPham(MoGiaoDien,Ui_QuanLySanPham):
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
         self.quanlynhanvien.clicked.connect(lambda:self.mogiaodien(QuanLyNhanVien))
         self.quanlythunhap.clicked.connect(lambda:self.mogiaodien(QuanLyThuNhap))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.xacnhanthem.clicked.connect(self.them_sp)
+        self.xacnhancapnhat.clicked.connect(self.capnhat_sp)
+        self.xacnhanxoa.clicked.connect(self.xoa_sp)
+    def doc_products(self):
+        try:
+            with open("data/products.json", "r") as f:
+                return json.load(f)
+        except:
+            return []
+    def ghi_products(self, products):
+        with open("data/products.json", "w") as f:
+            json.dump(products, f)
     def them_sp(self):
-        idsp = self.themidsp.text()
+        idsp = self.themidsp.text().strip()
         name = self.themtensp.text()
         price = self.themgiasp.text()
         img = self.themlinkanhsp.text()
         desc = self.themmotasp.text()
-        if name == "" or price == "" or img == "":
+        soluong_text = self.themsoluongsp.text().strip()
+        if name == "" or price == "" or img == "" or soluong_text == "":
             QMessageBox.warning(self, "Lỗi", "Vui lòng nhập đầy đủ thông tin")
             return
         try:
-            with open("data/products.json", "r") as f:
-                products = json.load(f)
+            soluong = int(soluong_text)
+            if soluong < 0:
+                raise ValueError
         except:
-            products = []
+            QMessageBox.warning(self, "Loi", "So luong phai la so nguyen khong am")
+            return
+        products = self.doc_products()
+        for p in products:
+            if str(p.get("id", "")).strip() == idsp:
+                QMessageBox.warning(self, "Lỗi", "ID sản phẩm đã tồn tại")
+                return
         products.append({
             "id": idsp,
             "name": name,
             "price": price,
             "img": img,
-            "desc": desc
+            "desc": desc,
+            "soluong": soluong
         })
-        with open("data/products.json", "w") as f:
-            json.dump(products, f)
+        self.ghi_products(products)
         QMessageBox.information(self,"Chúc mừng, ","Ban đã thêm sản phẩm thành công")
         self.themidsp.clear()
         self.themtensp.clear()
         self.themgiasp.clear()
         self.themlinkanhsp.clear()
         self.themmotasp.clear()
+        self.themsoluongsp.clear()
+    def capnhat_sp(self):
+        idsp = self.capnhatidsp.text().strip()
+        name = self.capnhattensp.text().strip()
+        img = self.capnhatlinkanhsp.text().strip()
+        price = self.capnhatgiasp.text().strip()
+        desc = self.capnhatmotasp.text().strip()
+        soluong_text = self.capnhatsoluongsp.text().strip()
+        if idsp == "":
+            QMessageBox.warning(self, "Lỗi", "Vui lòng nhập ID sản phẩm cần cập nhật")
+            return
+        if name == "" and img == "" and price == "" and desc == "" and soluong_text == "":
+            QMessageBox.warning(self, "Lỗi", "Vui lòng nhập ít nhất một thông tin để cập nhật")
+            return
+        soluong = None
+        if soluong_text != "":
+            try:
+                soluong = int(soluong_text)
+                if soluong < 0:
+                    raise ValueError
+            except:
+                QMessageBox.warning(self, "Loi", "So luong phai la so nguyen khong am")
+                return
+        products = self.doc_products()
+        for p in products:
+            if str(p.get("id", "")) == idsp:
+                if name != "":
+                    p["name"] = name
+                if img != "":
+                    p["img"] = img
+                if price != "":
+                    p["price"] = price
+                if desc != "":
+                    p["desc"] = desc
+                if soluong is not None:
+                    p["soluong"] = soluong
+                self.ghi_products(products)
+                QMessageBox.information(self, "Thông báo", "Cập nhật sản phẩm thành công")
+                self.capnhatidsp.clear()
+                self.capnhattensp.clear()
+                self.capnhatlinkanhsp.clear()
+                self.capnhatgiasp.clear()
+                self.capnhatmotasp.clear()
+                self.capnhatsoluongsp.clear()
+                return
+        QMessageBox.warning(self, "Lỗi", "Không tìm thấy sản phẩm cần cập nhật")
+    def xoa_sp(self):
+        idsp = self.xoasp.text().strip()
+        if idsp == "":
+            QMessageBox.warning(self, "Lỗi", "Vui lòng nhập ID sản phẩm cần xóa")
+            return
+        products = self.doc_products()
+        products_moi = [p for p in products if str(p.get("id", "")) != idsp]
+        if len(products_moi) == len(products):
+            QMessageBox.warning(self, "Lỗi", "Không tìm thấy sản phẩm cần xóa")
+            return
+        self.ghi_products(products_moi)
+        QMessageBox.information(self, "Thông báo", "Xóa sản phẩm thành công")
+        self.xoasp.clear()
 
 class QuanLyHangTonKho(MoGiaoDien,Ui_QuanLyHangTonKho):
     def __init__(self):
@@ -385,7 +553,51 @@ class QuanLyHangTonKho(MoGiaoDien,Ui_QuanLyHangTonKho):
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
         self.quanlynhanvien.clicked.connect(lambda:self.mogiaodien(QuanLyNhanVien))
         self.quanlythunhap.clicked.connect(lambda:self.mogiaodien(QuanLyThuNhap))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+        self.tableWidget.verticalHeader().setVisible(False)
+        self.tai_ton_kho()
+    def doc_products(self):
+        try:
+            with open("data/products.json", "r") as f:
+                return json.load(f)
+        except:
+            return []
+    def lay_so_luong(self, sanpham):
+        try:
+            return int(sanpham.get("soluong", 0))
+        except:
+            text = str(sanpham.get("soluong", "")).strip()
+            so = "".join(char for char in text if char.isdigit())
+            if so == "":
+                return 0
+            return int(so)
+    def lay_tinh_trang(self, soluong):
+        if soluong < 10:
+            return "Cần nhập hàng", QColor("#fecaca"), QColor("#991b1b")
+        if soluong <= 24:
+            return "Sắp hết hàng", QColor("#fef3c7"), QColor("#92400e")
+        return "Còn hàng", QColor("#dcfce7"), QColor("#166534")
+    def tao_item(self, text):
+        item = QTableWidgetItem(str(text))
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        return item
+    def tai_ton_kho(self):
+        products = self.doc_products()
+        self.tableWidget.setRowCount(len(products))
+        for row, sanpham in enumerate(products):
+            soluong = self.lay_so_luong(sanpham)
+            tinhtrang, mau_nen, mau_chu = self.lay_tinh_trang(soluong)
+            item_stt = self.tao_item(row + 1)
+            item_id = self.tao_item(sanpham.get("id", ""))
+            item_name = self.tao_item(sanpham.get("name", ""))
+            item_soluong = self.tao_item(soluong)
+            item_tinhtrang = self.tao_item(tinhtrang)
+            item_tinhtrang.setBackground(mau_nen)
+            item_tinhtrang.setForeground(mau_chu)
+            self.tableWidget.setItem(row, 0, item_stt)
+            self.tableWidget.setItem(row, 1, item_id)
+            self.tableWidget.setItem(row, 2, item_name)
+            self.tableWidget.setItem(row, 3, item_soluong)
+            self.tableWidget.setItem(row, 4, item_tinhtrang)
 
 class QuanLyNhanVien(MoGiaoDien, Ui_QuanLyNhanVien):
     def __init__(self):
@@ -398,7 +610,6 @@ class QuanLyNhanVien(MoGiaoDien, Ui_QuanLyNhanVien):
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
         self.quanlynhanvien.clicked.connect(lambda:self.mogiaodien(QuanLyNhanVien))
         self.quanlythunhap.clicked.connect(lambda:self.mogiaodien(QuanLyThuNhap))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.pushButtonSave.clicked.connect(self.luu_nhanvien)
         self.pushButtonDel.clicked.connect(self.xoa_nhanvien)
         self.lineEditSearch.textChanged.connect(self.timkiem)
@@ -463,6 +674,7 @@ class QuanLyNhanVien(MoGiaoDien, Ui_QuanLyNhanVien):
                 self.danhsachnv.addItem(text)
 
 class QuanLyThuNhap(MoGiaoDien, Ui_QuanLyThuNhap):
+    records = []
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -473,4 +685,172 @@ class QuanLyThuNhap(MoGiaoDien, Ui_QuanLyThuNhap):
         self.hangtonkho.clicked.connect(lambda:self.mogiaodien(QuanLyHangTonKho))
         self.quanlynhanvien.clicked.connect(lambda:self.mogiaodien(QuanLyNhanVien))
         self.quanlythunhap.clicked.connect(lambda:self.mogiaodien(QuanLyThuNhap))
-        self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
+
+        self.fileDT = "data/doanhthu.json"
+        self.ds_giaodich = self.docFile()
+        QuanLyThuNhap.records = self.ds_giaodich
+        self.cot_bieu_do = [
+            self.T1, self.T2, self.T3, self.T4, self.T5, self.T6,
+            self.T7, self.T8, self.T9, self.T10, self.T11, self.T12
+        ]
+        self.thong_so_cot_goc = []
+        for cot in self.cot_bieu_do:
+            hinh = cot.geometry()
+            self.thong_so_cot_goc.append((hinh.x(), hinh.y(), hinh.width(), hinh.height()))
+        self.chieu_cao_cot_nho_nhat = 6
+        self.chieu_cao_cot_lon_nhat = max(thong_so[3] for thong_so in self.thong_so_cot_goc)
+
+        self.khoiTaoLoai()
+        self.khoaTong()
+        self.chonMacDinh()
+        self.ganSuKien()
+
+        self.lamMoi()
+    def docFile(self):
+        try:
+            with open(self.fileDT, "r", encoding="utf-8") as f:
+                noi_dung = f.read().strip()
+                if noi_dung == "":
+                    with open(self.fileDT, "w", encoding="utf-8") as fw:
+                        json.dump([], fw, ensure_ascii=False, indent=4)
+                    return []
+                return json.loads(noi_dung)
+        except:
+            with open(self.fileDT, "w", encoding="utf-8") as f:
+                json.dump([], f, ensure_ascii=False, indent=4)
+            return []
+    def luuFile(self):
+        with open(self.fileDT, "w", encoding="utf-8") as f:
+            json.dump(self.ds_giaodich, f, ensure_ascii=False, indent=4)
+    def khoiTaoLoai(self):
+        if self.loaigiaodich.count() == 0:
+            self.loaigiaodich.addItems(["Doanh thu", "Chi tieu"])
+    def khoaTong(self):
+        self.tongthu.setReadOnly(True)
+        self.tongchi.setReadOnly(True)
+        self.loinhuan.setReadOnly(True)
+    def chonMacDinh(self):
+        ngay = self.dategiaodich.date()
+        self.chonthang.setCurrentIndex(max(0, ngay.month() - 1))
+        for i in range(self.chonnam.count()):
+            if str(ngay.year()) in self.chonnam.itemText(i):
+                self.chonnam.setCurrentIndex(i)
+                break
+    def ganSuKien(self):
+        self.themdoanhthu.clicked.connect(self.them_giaodich)
+        self.xoadoanhthu.clicked.connect(self.xoa_giaodich)
+        self.chonthang.currentIndexChanged.connect(self.lamMoi)
+        self.chonnam.currentIndexChanged.connect(self.lamMoi)
+    def tachTien(self, text):
+        chu_so = "".join(ky_tu for ky_tu in text if ky_tu.isdigit())
+        if chu_so == "":
+            return 0
+        return int(chu_so)
+    def formatTien(self, value):
+        return f"{value:,}".replace(",", ".")
+    def laDoanhThu(self, loai):
+        loai = loai.strip().lower()
+        return "thu" in loai and "chi" not in loai
+    def layNam(self):
+        chu_so = "".join(ky_tu for ky_tu in self.chonnam.currentText() if ky_tu.isdigit())
+        if chu_so == "":
+            return self.dategiaodich.date().year()
+        return int(chu_so)
+    def layThang(self):
+        return self.chonthang.currentIndex() + 1
+    def taoText(self, gd):
+        tien = self.formatTien(gd["so_tien"])
+        return f'{gd["ngay"]} | {gd["loai"]} | {tien} | {gd["noi_dung"]}'
+    def taiBang(self):
+        self.bangghinhan.clear()
+        for gd in self.ds_giaodich:
+            item = QListWidgetItem(self.taoText(gd))
+            item.setData(Qt.ItemDataRole.UserRole, gd["id"])
+            self.bangghinhan.addItem(item)
+    def tinhTong(self):
+        nam = self.layNam()
+        thang = self.layThang()
+        tong_thu = 0
+        tong_chi = 0
+        for gd in self.ds_giaodich:
+            if gd["year"] != nam or gd["month"] != thang:
+                continue
+            if self.laDoanhThu(gd["loai"]):
+                tong_thu += gd["so_tien"]
+            else:
+                tong_chi += gd["so_tien"]
+        return tong_thu, tong_chi
+    def hienTong(self):
+        tong_thu, tong_chi = self.tinhTong()
+        loi_nhuan = tong_thu - tong_chi
+        self.tongthu.setText(self.formatTien(tong_thu))
+        self.tongchi.setText(self.formatTien(tong_chi))
+        self.loinhuan.setText(self.formatTien(loi_nhuan))
+    def doanhThuNam(self):
+        nam = self.layNam()
+        ds_thang = [0] * 12
+        for gd in self.ds_giaodich:
+            if gd["year"] == nam and self.laDoanhThu(gd["loai"]):
+                ds_thang[gd["month"] - 1] += gd["so_tien"]
+        return ds_thang
+    def hienBieuDo(self):
+        ds_thang = self.doanhThuNam()
+        lon_nhat = max(ds_thang) if any(ds_thang) else 0
+        for i, cot in enumerate(self.cot_bieu_do):
+            x, y, w, h = self.thong_so_cot_goc[i]
+            day = y + h
+            gia_tri = ds_thang[i]
+            if lon_nhat == 0 or gia_tri == 0:
+                chieu_cao = self.chieu_cao_cot_nho_nhat
+            else:
+                ty_le = gia_tri / lon_nhat
+                chieu_cao = max(self.chieu_cao_cot_nho_nhat, int(self.chieu_cao_cot_lon_nhat * ty_le))
+            y_moi = day - chieu_cao
+            cot.setGeometry(x, y_moi, w, chieu_cao)
+            cot.setToolTip(f"Thang {i + 1}: {self.formatTien(gia_tri)}")
+    def lamMoi(self):
+        self.taiBang()
+        self.hienTong()
+        self.hienBieuDo()
+    def them_giaodich(self):
+        loai_giao_dich = self.loaigiaodich.currentText().strip()
+        ngay_giao_dich = self.dategiaodich.date()
+        so_tien = self.tachTien(self.sotiengiaodich.text())
+        noi_dung = self.noidunggiaodich.text().strip()
+        if loai_giao_dich == "":
+            QMessageBox.warning(self, "Lỗi", "Vui lòng chọn loại giao dịch trước khi thêm.")
+            return
+        if so_tien <= 0:
+            QMessageBox.warning(self, "Lỗi", "Vui lòng nhập số tiền hợp lệ lớn hơn 0.")
+            return
+        if noi_dung == "":
+            QMessageBox.warning(self, "Lỗi", "Vui lòng nhập nội dung giao dịch.")
+            return
+        gd = {
+            "id": datetime.now().strftime("%Y%m%d%H%M%S%f"),
+            "loai": loai_giao_dich,
+            "ngay": ngay_giao_dich.toString("dd/MM/yyyy"),
+            "month": ngay_giao_dich.month(),
+            "year": ngay_giao_dich.year(),
+            "so_tien": so_tien,
+            "noi_dung": noi_dung
+        }
+        self.ds_giaodich.append(gd)
+        QuanLyThuNhap.records = self.ds_giaodich
+        self.luuFile()
+        self.lamMoi()
+        self.sotiengiaodich.clear()
+        self.noidunggiaodich.clear()
+    def xoa_giaodich(self):
+        item_dang_chon = self.bangghinhan.currentItem()
+        if item_dang_chon is None:
+            QMessageBox.warning(self, "Lỗi", "Vui lòng chọn một giao dịch trong bảng để xóa.")
+            return
+        ma_giao_dich = item_dang_chon.data(Qt.ItemDataRole.UserRole)
+        for index, gd in enumerate(self.ds_giaodich):
+            if gd["id"] == ma_giao_dich:
+                del self.ds_giaodich[index]
+                break
+        QuanLyThuNhap.records = self.ds_giaodich
+        self.luuFile()
+        self.lamMoi()
