@@ -39,19 +39,29 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
     def login(self):
         username = self.dnten.text()
         password = self.dnmk.text()
-        if username in self.staff_accounts and self.staff_accounts[username] == password:
-            self.mogiaodien(QuanLy)
+        if username in self.staff_accounts:
+            if self.staff_accounts[username] == password:
+                self.mogiaodien(QuanLy)
+                return
+            QMessageBox.warning(self, "Thông báo", "Mật khẩu quản lý chưa đúng. Vui lòng nhập lại.")
             return
         try:
             with open("data/user.json", "r") as f:
                 users = json.load(f)
         except:
             users = []
+        user_ton_tai = False
         for u in users:
-            if u["username"] == username and u["password"] == password:
-                self.mogiaodien(TrangChu)
-                return
-        QMessageBox.warning(self, "Lỗi", "Sai tài khoản hoặc mật khẩu")
+            if u["username"] == username:
+                user_ton_tai = True
+                if u["password"] == password:
+                    self.mogiaodien(TrangChu)
+                    return
+        if user_ton_tai:
+            QMessageBox.warning(self, "Thông báo", "Mật khẩu chưa đúng. Vui lòng nhập lại.")
+            return
+        QMessageBox.warning(self, "Thông báo", "Bạn chưa đăng ký tài khoản. Vui lòng đăng ký trước khi đăng nhập.")
+        return
     def register(self):
         username = self.dkten.text()
         password = self.dkmk.text()
