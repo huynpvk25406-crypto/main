@@ -12,7 +12,6 @@ from quanlysanpham import Ui_QuanLySanPham
 from quanlyhangtonkho import Ui_QuanLyHangTonKho
 from quanlynhanvien import Ui_QuanLyNhanVien
 from quanlythunhap import Ui_QuanLyThuNhap
-from tintuc import Ui_TinTuc
 from hiensanphamchitiet import Ui_HienSanPhamChiTiet
 import json
 import random
@@ -31,8 +30,6 @@ class DangNhap(MoGiaoDien,Ui_DangNhap):
         super().__init__()
         self.setupUi(self)
         self.logo.setPixmap(QPixmap("image/logo.png"))
-        self.mostaff.clicked.connect(lambda:self.mogiaodien(QuanLy))
-        self.xacnhan2.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.staff_accounts = {
             "admin1": "123",
             "admin2": "123"
@@ -100,7 +97,6 @@ class TrangChu(MoGiaoDien,Ui_TrangChu):
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.cuoi.setPixmap(QPixmap("image/cuoi.png"))
         self.images=["image/anh1.jpg","image/anh2.jpg","image/anh3.jpg","image/anh4.jpg"]
         self.index=0
@@ -121,7 +117,6 @@ class SanPham(MoGiaoDien,Ui_SanPham):
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.hiensanpham()
         self.bangsanpham.itemClicked.connect(self.xem_chitiet)
         self.bangsanpham.setIconSize(QSize(120, 120))
@@ -153,7 +148,6 @@ class HienSanPhamChiTiet(MoGiaoDien, Ui_HienSanPhamChiTiet):
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.tenspchitiet.setText(sp["name"])
         self.giaspchitiet.setText(sp["price"])
         self.motaspchitiet.setText(sp["desc"])
@@ -203,7 +197,6 @@ class GioHang(MoGiaoDien,Ui_GioHang):
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
         self.thanhtoan.clicked.connect(lambda:self.mogiaodien(ThanhToan))
-        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.load_cart()
         self.xoa.clicked.connect(self.xoa_sanpham)
     def load_cart(self):
@@ -234,17 +227,6 @@ class GioHang(MoGiaoDien,Ui_GioHang):
         cart.pop(row)
         self.load_cart()
 
-class TinTuc(MoGiaoDien, Ui_TinTuc):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        self.logo.setPixmap(QPixmap("image/logo.png"))
-        self.dangxuat.clicked.connect(lambda: self.mogiaodien(DangNhap))
-        self.sanpham.clicked.connect(lambda: self.mogiaodien(SanPham))
-        self.trangchu.clicked.connect(lambda: self.mogiaodien(TrangChu))
-        self.giohang.clicked.connect(lambda: self.mogiaodien(GioHang))
-        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
-
 class QRWindow(QDialog):
     def __init__(self,path):
         super().__init__()
@@ -266,7 +248,6 @@ class ThanhToan(MoGiaoDien,Ui_ThanhToan):
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.tintuc.clicked.connect(lambda:self.mogiaodien(TinTuc))
         self.thongtin={}
         self.pttt=""
         self.cod.toggled.connect(self.chon_thanhtoan)

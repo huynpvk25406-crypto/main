@@ -119,145 +119,6 @@
      <string>Thanh Toán</string>
     </property>
    </widget>
-   <widget class="QWidget" name="widget_2" native="true">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>0</y>
-      <width>681</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 0, 0);</string>
-    </property>
-    <widget class="QPushButton" name="trangchu">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>0</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>Trang Chủ</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sanpham">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>0</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>Sản Phẩm</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="giohang">
-     <property name="geometry">
-      <rect>
-       <x>300</x>
-       <y>0</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>Giỏ Hàng</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="tintuc">
-     <property name="geometry">
-      <rect>
-       <x>410</x>
-       <y>0</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string>Tin Tức</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QLabel" name="logo">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="dangxuat">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>0</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 0, 0);</string>
-    </property>
-    <property name="text">
-     <string>Đăng xuất</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_15">
     <property name="geometry">
      <rect>
@@ -388,18 +249,135 @@ background-color: rgb(0, 0, 0);</string>
      <string/>
     </property>
    </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>0</y>
+      <width>681</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);</string>
+    </property>
+    <widget class="QPushButton" name="trangchu">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>0</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string>Trang Chủ</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="sanpham">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>0</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string>Sản Phẩm</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="giohang">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>0</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string>Giỏ Hàng</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="dangxuat">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>0</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Đăng xuất</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>widget_2</zorder>
    <zorder>groupBox</zorder>
    <zorder>widget</zorder>
-   <zorder>widget_2</zorder>
    <zorder>label_3</zorder>
    <zorder>thongtingiohang</zorder>
    <zorder>label_16</zorder>
    <zorder>tongtien</zorder>
    <zorder>xoa</zorder>
    <zorder>thanhtoan</zorder>
-   <zorder>logo</zorder>
-   <zorder>dangxuat</zorder>
    <zorder>label_15</zorder>
+   <zorder>dangxuat</zorder>
+   <zorder>logo</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

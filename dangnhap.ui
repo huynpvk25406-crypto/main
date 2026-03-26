@@ -197,19 +197,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="mostaff">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>310</y>
-      <width>61</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Xác Nhận</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
