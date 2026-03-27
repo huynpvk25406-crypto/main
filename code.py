@@ -127,22 +127,38 @@ class SanPham(MoGiaoDien,Ui_SanPham):
         self.sanpham.clicked.connect(lambda:self.mogiaodien(SanPham))
         self.trangchu.clicked.connect(lambda:self.mogiaodien(TrangChu))
         self.giohang.clicked.connect(lambda:self.mogiaodien(GioHang))
-        self.hiensanpham()
+        self.dsSanPham = []
+        self.taiSanPham()
+        self.timkiem.textChanged.connect(self.timSanPham)
         self.bangsanpham.itemClicked.connect(self.xem_chitiet)
         self.bangsanpham.setIconSize(QSize(120, 120))
         self.bangsanpham.setGridSize(QSize(170, 260))
-    def hiensanpham(self):
+    def taiSanPham(self):
         try:
             with open("data/products.json", "r") as f:
-                products = json.load(f)
+                self.dsSanPham = json.load(f)
         except:
-            products = []
-        for p in products:
+            self.dsSanPham = []
+        self.hiensanpham(self.dsSanPham)
+    def hiensanpham(self, dsSanPham):
+        self.bangsanpham.clear()
+        for p in dsSanPham:
             item = QListWidgetItem()
             item.setText(p["name"])
             item.setIcon(QIcon(p["img"]))
             item.setData(Qt.ItemDataRole.UserRole, p)
             self.bangsanpham.addItem(item)
+    def timSanPham(self):
+        tuKhoa = self.timkiem.text().strip().lower()
+        if tuKhoa == "":
+            self.hiensanpham(self.dsSanPham)
+            return
+        ketQua = []
+        for sanPham in self.dsSanPham:
+            ten = str(sanPham.get("name", "")).lower()
+            if tuKhoa in ten:
+                ketQua.append(sanPham)
+        self.hiensanpham(ketQua)
     def xem_chitiet(self, item):
         sp = item.data(Qt.ItemDataRole.UserRole)
         self.window = HienSanPhamChiTiet(sp)
